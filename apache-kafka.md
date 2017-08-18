@@ -1,4 +1,5 @@
 ### Apache Kafka
+Apache Kafka is an open-source stream processing platform with high-throughput and low-latency for handling real-time data feeds.
 Decoupling of data streams from source to target system.
 1. distributed fault tolerant
 2. horizontal scalability : (Add nodes to architecture and system will be scaled accordingly)
