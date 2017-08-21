@@ -161,8 +161,12 @@ if a key us sent, then the producer has the guarantee that all messages for that
 	max.messages.bytes (default to 1MB) -> maximum size of message
 	
 ###### SPRING KAFKA
+
 https://projects.spring.io/spring-kafka/
+
 https://spring.io/blog/2015/04/15/using-apache-kafka-for-integration-and-data-processing-pipelines-with-spring
+
 https://github.com/spring-projects/spring-kafka
+
 https://github.com/spring-projects/spring-integration-kafka
 
