@@ -128,12 +128,13 @@ if a key us sent, then the producer has the guarantee that all messages for that
 	
 ###### LOG CLEANUP POLICIES
 1. Kafka cluster make data expire based on policy. This concept is called log cleanup.
+
     a) **log.cleanup.policy** = **delete** (default for all user topic)
         delete based on age of data (default to 1 week)
-		delete based on max size of log (partition) (default to -1 == infinite)
-	b) **log.cleanup.policy** = **compact** (default for **__consumer_offsets** topic)
-		delete based on key of your messages
-		you push two messages with same key then it will delete old one retain latest one.
+	delete based on max size of log (partition) (default to -1 == infinite)
+    b) **log.cleanup.policy** = **compact** (default for **__consumer_offsets** topic)
+	delete based on key of your messages
+	you push two messages with same key then it will delete old one retain latest one.
 2. It happens on every partition segment.
 	smaller/more segments means log cleanup will happen more frequently.
 	Log cleanup shouldn't happen too often because it takes CPU and RAM resources.
