@@ -1,19 +1,21 @@
 ### Apache Spark
 
-1. Apache Spark is cluster computing framework.
-2. It was built on top of Hadoop MapReduce.
-3. It extends the MapReduce model to efficiently use more types of computations which includes **stream processing**, **interactive queries**, **batch applications** and **iterative algorithm**.
-4. Spark was introduced by Apache Software Foundation for speeding up the Hadoop computational computing software process.
-5. Spark uses Hadoop in two ways – one is storage and second is processing.
-6. Spark uses **in-memory cluster computing** that increases the processing speed of an application.
+1. Fast and general engine for large data processing.
+2. Distributed processing of large data sets.
+3. Cluster computing framework.
+4. Built on top of Hadoop MapReduce.
+5. It extends the MapReduce model to efficiently use more types of computations which includes **stream processing**, **interactive queries**, **batch applications** and **iterative algorithm**.
+6. Spark uses Hadoop in two ways – one is storage and second is processing.
+7. Spark uses **in-memory cluster computing** that increases the processing speed of an application.
+8. Built around one concept - **RDD (Resilient Distributed Datasets)**
 
 #### Apache Spark Features
 
-1. **Speed** Spark helps to run an application in Hadoop cluster and upto 100 times faster in memory and upto 10 times faster when running on disk (possible by reducing number of read/write operations to disk). It stores the intermediate processing data in memory.
+1. **Speed** Run Programs up to 100x times faster than Hadoop MapReduce in memory and 10x times faster on disk (possible by reducing number of r/w operations to disk). It stores the intermediate processing data in memory.
 
-2. **Advanced Analytics** Spark not only supports ‘Map’ and ‘reduce’. It also supports SQL queries, Streaming data, Machine learning (ML), and Graph algorithms.
+2. **DAG (Directed Acyclic Graph)** optimizes workflows.
 
-3. Spark provides built-in APIs in Java, Scala, or Python.
+3. **Advanced Analytics** Spark not only supports ‘Map’ and ‘reduce’. It also supports SQL queries, Streaming data, Machine learning (ML), and Graph algorithms.
 
 #### Spark Built on Hadoop
 
@@ -23,13 +25,53 @@
 
 **Spark in MapReduce (SIMR)** : Spark in MapReduce is used to launch spark job in addition to standalone deployment. With SIMR, user can start Spark and uses its shell without any administrative access.
 
-#### Resilient Distributed Datasets (RDD)
-1. RDD is a fundamental data structure of Spark. 
-2. It is an immutable distributed collection of objects.
-3. Each dataset in RDD is divided into logical partitions,
-4. which may be computed on different nodes of the cluster.
-5. RDDs can contain any type of objects, including user-defined classes.
-6. RDD is a read-only, partitioned collection of records
-7. RDDs can be created through deterministic operations on either data or stable storage or other RDDs.
+------------
+
+### Resilient Distributed Datasets (RDD)
+
+**Resilient** : If one node goes down in your cluster it can still recover from that and pickup from where it left off.
+
+**Distributed** : Splits up your data and process across nodes in cluster.
+
+1. Fundamental data structure of Spark.
+2. Immutable distributed collection of objects.
+3. Each dataset in RDD is divided into logical partitions which may be computed on different nodes of the cluster.
+4. RDD can contain any type of objects, including user-defined classes.
 8. RDD is a fault-tolerant.
 
+### Spark Context
+
+1. Created by driver program.
+2. Responsible for making RDD *resilient* and *distributed*.
+3. RDD can also be created from JDBC, Elastic Search, HBase, Cassandra.
+4. Load up date from Amazon S3, HDFS.
+
+### Transforming RDD's
+
+**map()** apply a function in every row of RDD.
+
+**flatmap()** is similar to map, but each input item can be mapped to 0 or more output items.
+
+**filter()** trim down unnecessary data from RDD.
+
+**distinct()** remove duplicate rows from RDD.
+
+**sample()** creates a random sample RDD from input RDD.
+
+**union(), intersection(), subtract(), cartesian()** Perform set operations on RDD between any two RDD's.
+
+All these functions doesn't modify original RDD because it is immutable.
+
+### RDD Actions
+
+**collect()** takes the result of an RDD and passes back to driver script.
+
+**count()** get a count of how many rows are there in RDD.
+
+**countByValue()** get a count of unique value and count how many times each value appears.
+
+**take()** returns first k result in RDD.
+
+**reduce()** this actually combine together all the different value associated with a given value (similar to reduce in Hadoop).
+
+**In spark, nothing actually happens until you call an action on RDD. When you call any action, it will go and figure out what's the best optimal path for producing these results. At that point spark construct *Directed Acyclic Graph*, execute it in most optimal manner on cluster.**
