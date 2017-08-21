@@ -68,10 +68,42 @@ All these functions doesn't modify original RDD because it is immutable.
 
 **count()** get a count of how many rows are there in RDD.
 
-**countByValue()** get a count of unique value and count how many times each value appears.
+**countByValue()** returns a Map containing <unique value, count> where *count* is a integer describing how many times each unique value appears.
 
 **take()** returns first k result in RDD.
 
 **reduce()** this actually combine together all the different value associated with a given value (similar to reduce in Hadoop).
 
 **In spark, nothing actually happens until you call an action on RDD. When you call any action, it will go and figure out what's the best optimal path for producing these results. At that point spark construct *Directed Acyclic Graph*, execute it in most optimal manner on cluster.**
+
+### Spark Internals
+Step by step description of how spark works internally....
+1. A job is broken into stages based on when data needs to be reorganized.
+2. Each stage is broken into tasks which may be distributed across a cluster.
+3. Finally the task are scheduled across your cluster and executed.
+
+
+### Key/Value RDD's
+Key value RDDs are same as general RDD but it contains data in key value pairs instead of rows. It is just a map pairs of data into the RDD using tuples.You can create pair RDD something like this...
+
+`val keyValuePairRDD = originalRDD.map(x=> (x,1))`
+
+Ok to have tuples or other objects as value as well.
+
+If RDD contains tuples and tuple contains two objects then spark automatically treat that RDD as key/value RDD.
+
+**reduceByKey()** combine value with the same key using some function.
+
+`rdd.reduceByKey((x, y) => x+y)` it adds up all the values of the same key and return a new RDD.
+
+**groupByKey()** - Group value with the same key and returns `(key, List of values of same key)`.
+
+**sortByKey()** - Sort an RDD by key.
+
+**keys()** - Create an RDD of just keys.
+
+**values()** - Create an RDD of just values.
+
+**join, rightOuterJoin, leftOuterJoin, cogroup, subtractByKey** - Create an RDD by doing some SQL style joins on two key/value RDD.
+
+`With key/value data, use mapValues() and flatMapValues() if your transformation doesn't affect the keys. It's more efficient.`
