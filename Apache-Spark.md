@@ -9,9 +9,13 @@
 7. Spark uses **in-memory cluster computing** that increases the processing speed of an application.
 8. Built around one concept - **RDD (Resilient Distributed Datasets)**
 
+![Spark Engine](images/spark_engine.jpg)
+
 #### Apache Spark Features
 
 1. **Speed** Run Programs up to 100x times faster than Hadoop MapReduce in memory and 10x times faster on disk (possible by reducing number of r/w operations to disk). It stores the intermediate processing data in memory.
+
+![sparkcontext low latency](images/spark-low-latency.png)
 
 2. **DAG (Directed Acyclic Graph)** optimizes workflows.
 
@@ -46,11 +50,13 @@
 3. RDD can also be created from JDBC, Elastic Search, HBase, Cassandra.
 4. Load up date from Amazon S3, HDFS.
 
+![Spark Architecture](images/spark-architecture.png)
+
 ### Transforming RDD's
 
 **map()** apply a function in every row of RDD.
 
-**flatmap()** is similar to map, but each input item can be mapped to 0 or more output items.
+**flatmap()** is similar to map, but each input item can be mapped to 0 or more output items. flatmap can generate many lines from one input line or zero lines.
 
 **filter()** trim down unnecessary data from RDD.
 
@@ -107,3 +113,12 @@ If RDD contains tuples and tuple contains two objects then spark automatically t
 **join, rightOuterJoin, leftOuterJoin, cogroup, subtractByKey** - Create an RDD by doing some SQL style joins on two key/value RDD.
 
 `With key/value data, use mapValues() and flatMapValues() if your transformation doesn't affect the keys. It's more efficient.`
+
+### Broadcast data to nodes
+Broadcast variables allow the programmer to keep a read-only variable cached on each machine rather than shipping a copy of it with tasks.
+
+Explicitly creating broadcast variables is only useful when tasks across multiple stages need the same data.
+
+`sparkContext.broadcast()` : Broadcast objects to executors, such that they are always there whenever needed.
+
+![sparkcontext broadcast executors](images/sparkcontext-broadcast-executors.png)
