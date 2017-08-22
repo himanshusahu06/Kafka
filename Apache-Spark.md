@@ -1,12 +1,13 @@
 <div style="text-align:left"><img width="150" src ="images/Apache-Spark-Logo.jpeg" alt="Apache Spark"/></div>
 <p></p>
-1. Fast and general engine for large data processing.
-2. Distributed processing of large data sets.
-3. Cluster computing framework.
-4. Built on top of Hadoop MapReduce.
-5. It extends the MapReduce model to efficiently use more types of computations which includes **stream processing**, **interactive queries**, **batch applications** and **iterative algorithm**.
-6. Spark uses Hadoop in two ways – one is storage and second is processing.
-7. Spark uses **in-memory cluster computing** that increases the processing speed of an application.
+
+1. Fast and general engine for large data processing.<br/>
+2. Distributed processing of large data sets.<br/>
+3. Cluster computing framework.<br/>
+4. Built on top of Hadoop MapReduce.<br/>
+5. It extends the MapReduce model to efficiently use more types of computations which includes **stream processing**, **interactive queries**, **batch applications** and **iterative algorithm**.<br/>
+6. Spark uses Hadoop in two ways – one is storage and second is processing.<br/>
+7. Spark uses **in-memory cluster computing** that increases the processing speed of an application.<br/>
 8. Built around one concept - **RDD (Resilient Distributed Datasets)**
 
 <div style="text-align:center"><img width="400" src ="images/spark_engine.jpg" alt="Spark Engine"/></div>
