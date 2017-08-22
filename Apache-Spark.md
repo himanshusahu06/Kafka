@@ -1,5 +1,5 @@
-### Apache Spark
-
+<div style="text-align:left"><img width="150" src ="images/Apache-Spark-Logo.jpeg" alt="Apache Spark"/></div>
+<p></p>
 1. Fast and general engine for large data processing.
 2. Distributed processing of large data sets.
 3. Cluster computing framework.
@@ -9,13 +9,13 @@
 7. Spark uses **in-memory cluster computing** that increases the processing speed of an application.
 8. Built around one concept - **RDD (Resilient Distributed Datasets)**
 
-![Spark Engine](images/spark_engine.jpg)
+<div style="text-align:center"><img width="400" src ="images/spark_engine.jpg" alt="Spark Engine"/></div>
 
 #### Apache Spark Features
 
 1. **Speed** Run Programs up to 100x times faster than Hadoop MapReduce in memory and 10x times faster on disk (possible by reducing number of r/w operations to disk). It stores the intermediate processing data in memory.
 
-![sparkcontext low latency](images/spark-low-latency.png)
+<div style="text-align:center"><img width="400" src ="images/spark-low-latency.png" alt="sparkcontext low latency"/></div>
 
 2. **DAG (Directed Acyclic Graph)** optimizes workflows.
 
@@ -50,7 +50,7 @@
 3. RDD can also be created from JDBC, Elastic Search, HBase, Cassandra.
 4. Load up date from Amazon S3, HDFS.
 
-![Spark Architecture](images/spark-architecture.png)
+<div style="text-align:center"><img width="400" src ="images/spark-architecture.png" alt="Spark Architecture"/></div>
 
 ### Transforming RDD's
 
@@ -121,4 +121,4 @@ Explicitly creating broadcast variables is only useful when tasks across multipl
 
 `sparkContext.broadcast()` : Broadcast objects to executors, such that they are always there whenever needed.
 
-![sparkcontext broadcast executors](images/sparkcontext-broadcast-executors.png)
+<div style="text-align:center"><img width="400" src ="images/sparkcontext-broadcast-executors.png" alt="sparkcontext broadcast executors"/></div>

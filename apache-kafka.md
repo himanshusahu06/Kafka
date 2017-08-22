@@ -1,4 +1,5 @@
-### Apache Kafka
+<div style="text-align:left"><img width="250" src ="images/Apache-kafka-Logo.png" alt="Apache Kafka"/></div>
+<p></p>
 Apache Kafka is an open-source stream processing platform with high-throughput and low-latency for handling real-time data feeds.
 Decoupling of data streams from source to target system.
 1. distributed fault tolerant
@@ -30,7 +31,7 @@ Decoupling of data streams from source to target system.
 3. Each broker contains certain topic partitions
 4. Each broker can contain multiple partitions from different topics
 5. After connecting to any broker (bootstrap broker), you will be connected to entire cluster.
-	
+
 eg: suppose you are connected to Broker 1 which doesn't have any partition of topic 2 and you are pushing data to topic 2, since you are connected to entire cluster it means kafka will take care of which broker have topic 2 partition.
 
 ##### Topic Replication Factor
@@ -38,7 +39,7 @@ eg: suppose you are connected to Broker 1 which doesn't have any partition of to
 2. In case a broker is down, another broker can server the  data.
 
 ##### Leader
-1. At any time only 1 broker can be leader for a given partition 
+1. At any time only 1 broker can be leader for a given partition
 2. Only the Leader can receive and server data for a partition
 3. The other broker will synchronize the data.
 4. There each partition has: ONE LEADER AND multiple ISR (IN-SYNC REPLICA)
@@ -47,8 +48,8 @@ eg: suppose you are connected to Broker 1 which doesn't have any partition of to
 Writes data to topics.
 Only specify the topic name and one broker to connect, kafka will automatically take care of routing of data to the right brokers.
 Automatically load balancing by broker.
-	
-##### Message Acknowledgement 
+
+##### Message Acknowledgement
 Producer can choose to receive acknowledgment of data writes:
 		**Acks=0** : producer won't  wait for acknowledgment (possible data loss) (least safe) (super quick)
 		**Acks=1** : Producer will wait for leader acknowledgment (possible data loss) (moderate safe) (quick)
@@ -85,14 +86,14 @@ if a key us sent, then the producer has the guarantee that all messages for that
 5. One zookeeper is leader, rest of else are followers.
 6. kafka broker communicates with leader zookeeper.
 
-###### Kafka Guarantees 
+###### Kafka Guarantees
 1. ordered push messages per topic-partition.
 2. orders pull messages per topic-partition.
 3. With a replication factor of N, producer and consumers can tolerate up to N-1 brokers being down.
 4. As long as number of partitions remains constant for a topic, the same key will always go to same partition.
 5. IF PARTITION COUNT INCREASES DURING TOPIC LIFECYCLE, IT WILL BREAK KEY ORDERING GUARENTEE.
 6. IF THE REPLICATION FACTOR INCREASES DURING A TOPIC LIFECYCLE, YOU PUT MORE PRESSURE ON YOUR CLUSTER WHICH WILL DECREASE PERFORMANCE
-	
+
 ###### DELIVERY SEMANTICS FOR CONSUMERS
 1. consumer choose when to commit offsets.
 2. **at most once** : offsets are committed ASA the message is received. If processing goes wrong, message will be lost. you can't read it again.
@@ -125,7 +126,7 @@ if a key us sent, then the producer has the guarantee that all messages for that
 	a) more segment per partition.
 	b) log compaction happens more often.
 	c) BUT kafka has to keep more files opened.		
-	
+
 ###### LOG CLEANUP POLICIES
 1. Kafka cluster make data expire based on policy. This concept is called log cleanup.
 
@@ -147,20 +148,20 @@ if a key us sent, then the producer has the guarantee that all messages for that
 	**log.retention.bytes** : max size of bytes in in each partition (-1 INFINITE default)
 		useful to keep size of log under a threshold
 		if log.retention.bytes is 500MB it means that as soon as partition reaches 500MB data it will delete old segment.
-	
+
 ###### *COMPACT* LOG CLEANUP POLICY
 1. Log compaction ensures that your log partition contains at least one known value for a specific key within a partition.
 2. We only keep the latest update for a key in our log.
 3. New consumer won't see any old key after log compaction.
 4. log compaction only remove the data, no re-ordering happens.
 5. de duplication is done after a segment is committed.
-	
+
 **segment.ms**
 	This configuration controls the period of time after which Kafka will force the log to roll even if the segment file isn't full to ensure that retention can delete or compact old data.
 
 ###### OTHER CONFIGURATION:
 	max.messages.bytes (default to 1MB) -> maximum size of message
-	
+
 ###### SPRING KAFKA
 
 https://projects.spring.io/spring-kafka/
@@ -170,4 +171,3 @@ https://spring.io/blog/2015/04/15/using-apache-kafka-for-integration-and-data-pr
 https://github.com/spring-projects/spring-kafka
 
 https://github.com/spring-projects/spring-integration-kafka
-
