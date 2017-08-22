@@ -115,7 +115,7 @@ If RDD contains tuples and tuple contains two objects then spark automatically t
 
 `With key/value data, use mapValues() and flatMapValues() if your transformation doesn't affect the keys. It's more efficient.`
 
-### Broadcast data to nodes
+### Broadcast Variables
 Broadcast variables allow the programmer to keep a read-only variable cached on each machine rather than shipping a copy of it with tasks.
 
 Explicitly creating broadcast variables is only useful when tasks across multiple stages need the same data.
@@ -123,3 +123,14 @@ Explicitly creating broadcast variables is only useful when tasks across multipl
 `sparkContext.broadcast()` : Broadcast objects to executors, such that they are always there whenever needed.
 
 <div style="text-align:center"><img width="400" src ="images/sparkcontext-broadcast-executors.png" alt="sparkcontext broadcast executors"/></div>
+
+### Accumulators
+An accumulator is a shared variable across entire spark cluster. It allows many executors to only add something in a shared variable. Spark natively supports accumulators of numeric types.
+
+An accumulator is created from an initial value v by calling `val accumulator =  SparkContext.accumulator(v)`. Tasks running on the cluster can then add to it using the add method or the += operator.
+
+```scala
+  scala> val accumulator = sc.accumulator(0)
+  scala> sc.parallelize(Array(1, 2, 3)).foreach(x => accumulator += x)
+```
+Tasks running on the cluster cannot read accumulator's value. Only the driver program can read the accumulator’s value by using `accumulator.value()`.
