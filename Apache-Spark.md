@@ -166,3 +166,15 @@ RDD can be stored using a different storage level.
 * Use the replicated storage levels if you want fast fault recovery.
 
 Spark automatically monitors cache usage on each node and drops out old data partitions in a LRU fashion. If you would like to manually remove an RDD instead of waiting for it to fall out of the cache, use the ```RDD.unpersist()``` method.
+
+---
+
+### Running Spark on a Cluster using SPARK-SUBMIT
+
+* Make sure there are no path to local file system used in your script!!
+* Package up your Scala Project into a jar file.
+* use `spark-submit` to execute your driver script.
+
+```Shell
+spark-submit --class <class object that contains main function> --jars <path to any dependencies> --files <files you want placed alongside your application> <your jar-file-containing-spark-program>
+```
