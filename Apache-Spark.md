@@ -161,7 +161,9 @@ RDD can be stored using a different storage level.
 ###### Which Storage Level to Choose?
 
 * If your RDDs fit comfortably with the default storage level (MEMORY_ONLY), leave them that way. This is the most CPU-efficient option, allowing operations on the RDDs to run as fast as possible.
+
 * If not, try using MEMORY_ONLY_SER and selecting a fast serialization library to make the objects much more space-efficient, but still reasonably fast to access.
+
 * Don’t spill to disk unless datasets computation is expensive. Otherwise, recomputing a partition may be as fast as reading it from disk.
 * Use the replicated storage levels if you want fast fault recovery.
 
@@ -178,3 +180,20 @@ Spark automatically monitors cache usage on each node and drops out old data par
 ```Shell
 spark-submit --class <class object that contains main function> --jars <path to any dependencies> --files <files you want placed alongside your application> <your jar-file-containing-spark-program>
 ```
+
+**Other Parameters**
+
+**--master** - What kind of cluster you have ? e.g.
+* **yarn** - for running a YARN / Hadoop cluster
+
+* **hostname:port** - for connecting to a master on a spark standalone cluster
+
+* A master in your SparkConf will override this!!
+
+* Config Priority - *SparkConf (spark-script) > command-line > config file for spark*
+
+**--num-executors** - Must set explicitly with YARN (2 by default)
+
+**--executor-memory** - Manages how much memory to use in each executor node.
+
+**--total-executor-cores** - How much core to use in each executor node.
