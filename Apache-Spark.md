@@ -124,7 +124,7 @@ Explicitly creating broadcast variables is only useful when tasks across multipl
 
 <div style="text-align:center"><img width="400" src ="images/sparkcontext-broadcast-executors.png" alt="sparkcontext broadcast executors"/></div>
 
-### Accumulators
+### Shared Variables: Accumulators
 An accumulator is a shared variable across entire spark cluster. It allows many executors to only add something in a shared variable. Spark natively supports accumulators of numeric types.
 
 An accumulator is created from an initial value v by calling `val accumulator =  SparkContext.accumulator(v)`. Tasks running on the cluster can then add to it using the add method or the += operator.
@@ -133,4 +133,36 @@ An accumulator is created from an initial value v by calling `val accumulator = 
   scala> val accumulator = sc.accumulator(0)
   scala> sc.parallelize(Array(1, 2, 3)).foreach(x => accumulator += x)
 ```
+
 Tasks running on the cluster cannot read accumulator's value. Only the driver program can read the accumulator’s value by using `accumulator.value()`.
+
+### Caching RDD's
+Any time you will perform more than one action on an RDD, you must cache it. Otherwise, spark might re-evaluate the entire RDD all over again.
+
+**cache()** - Cache the RDD in memory `StorageLevel.MEMORY_ONLY`.
+
+**persist()** - Cache the RDD in disk.
+
+RDD can be stored using a different storage level.
+
+|   Storage Level	|  Meaning 	|
+|:-:	|---	|
+|MEMORY_ONLY|Store RDD as deserialized objects in the JVM. If the RDD does not fit in memory, some partitions will not be cached and will be recomputed on the fly each time they're needed. This is the default level.|
+|MEMORY_AND_DISK|Store RDD as deserialized objects in the JVM. If the RDD does not fit in memory, store the partitions that don't fit on disk, and read them from there when they're needed.|
+|MEMORY_ONLY_SER (Java and Scala)|Store RDD as serialized Java objects (one byte array per partition). This is generally more space-efficient than deserialized objects but more CPU-intensive to read.|
+|MEMORY_AND_DISK_SER (Java and Scala)|Similar to MEMORY_AND_DISK but stores RDD as serialized objects.|
+|DISK_ONLY|Store the RDD partitions only on disk.|
+|MEMORY_ONLY_2, MEMORY_AND_DISK_2|Replicate each partition on two cluster nodes.|
+
+```scala
+  import org.apache.spark.storage.StorageLevel._
+  RDD.persist(MEMORY_AND_DISK_SER)
+```
+###### Which Storage Level to Choose?
+
+* If your RDDs fit comfortably with the default storage level (MEMORY_ONLY), leave them that way. This is the most CPU-efficient option, allowing operations on the RDDs to run as fast as possible.
+* If not, try using MEMORY_ONLY_SER and selecting a fast serialization library to make the objects much more space-efficient, but still reasonably fast to access.
+* Don’t spill to disk unless datasets computation is expensive. Otherwise, recomputing a partition may be as fast as reading it from disk.
+* Use the replicated storage levels if you want fast fault recovery.
+
+Spark automatically monitors cache usage on each node and drops out old data partitions in a LRU fashion. If you would like to manually remove an RDD instead of waiting for it to fall out of the cache, use the ```RDD.unpersist()``` method.
