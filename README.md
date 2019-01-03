@@ -90,8 +90,8 @@ if a key us sent, then the producer has the guarantee that all messages for that
 2. orders pull messages per topic-partition.
 3. With a replication factor of N, producer and consumers can tolerate up to N-1 brokers being down.
 4. As long as number of partitions remains constant for a topic, the same key will always go to same partition.
-5. IF PARTITION COUNT INCREASES DURING TOPIC LIFECYCLE, IT WILL BREAK KEY ORDERING GUARENTEE.
-6. IF THE REPLICATION FACTOR INCREASES DURING A TOPIC LIFECYCLE, YOU PUT MORE PRESSURE ON YOUR CLUSTER WHICH WILL DECREASE PERFORMANCE
+5. *If partition count increases during topic lifecycle, it will break key ordering guarentee. Each Key is mapped to a partition based on formula - **hash(key)%num_partition** so ordering will change if number of partiton changes.
+6. If the replication factor increases during a topic lifecycle, you put more pressure on your cluster which will decrease performance.
 
 ###### DELIVERY SEMANTICS FOR CONSUMERS
 1. consumer choose when to commit offsets.
@@ -119,12 +119,12 @@ if a key us sent, then the producer has the guarantee that all messages for that
 
 ##### SEGMENT INDEXS
 1. Segment comes with two indexes.
-    a) An offset to position indexes : allow kafka where to read to find a message.
-	b) A timestamp to offset index: allow kafka to find a message with a timestamp.
+    	* a) An offset to position indexes : allow kafka where to read to find a message.
+    	* b) A timestamp to offset index: allow kafka to find a message with a timestamp.
 2. A smaller **log.segment.bytes** means
-	a) more segment per partition.
-	b) log compaction happens more often.
-	c) BUT kafka has to keep more files opened.		
+	* a) more segment per partition.
+	* b) log compaction happens more often.
+	* c) BUT kafka has to keep more files opened.		
 
 ###### LOG CLEANUP POLICIES
 1. Kafka cluster make data expire based on policy. This concept is called log cleanup.
