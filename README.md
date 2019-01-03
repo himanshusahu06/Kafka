@@ -85,7 +85,7 @@ if a key us sent, then the producer has the guarantee that all messages for that
 5. One zookeeper is leader, rest of else are followers.
 6. kafka broker communicates with leader zookeeper.
 
-###### Kafka Guarantees
+#### Kafka Guarantees
 1. ordered push messages per topic-partition.
 2. orders pull messages per topic-partition.
 3. With a replication factor of N, producer and consumers can tolerate up to N-1 brokers being down.
