@@ -50,9 +50,9 @@ Automatically load balancing by broker.
 
 ##### Message Acknowledgement
 Producer can choose to receive acknowledgment of data writes:
-* **Acks=0** : producer won't  wait for acknowledgment (possible data loss) (least safe) (super quick)
-* **Acks=1** : Producer will wait for leader acknowledgment (possible data loss) (moderate safe) (quick)
-* **Acks= all** : Leader + Replica acknowledgment (no data loss) (safest)
+* **Acks=0** : producer won't  wait for acknowledgment (possible data loss, least safe, super quick)
+* **Acks=1** : Producer will wait for leader acknowledgment (possible data loss, moderate safe, quick)
+* **Acks= all** : Leader + Replica acknowledgment (no data loss, safest, slow)
 
 ##### Producer Message Keys
 Producer can choose to send a key with the message.
@@ -103,10 +103,10 @@ if a key us sent, then the producer has the guarantee that all messages for that
 
 ###### MORE PARTITION
 1. Better parallelism, better performance, more consumer can consume data.
-2. BUT more files opened in the system.
-3. BUT if a broker fails (unclean shutdown), more leader elections.
-4. BUT added latency to replicate the data.
-5. PARTITION PER TOPIC = (1 or 2) x (# of Brokers), max 10 partitions
+2. More files opened in the system.
+3. If a broker fails (unclean shutdown), more leader elections.
+4. Higher latency because there are more data to replicate.
+5. **Recommended number of partitions = (1 or 2) x (# of Brokers), max 10 partitions**
 
 ###### REPLICATION FACTOR
 1. Replication factor should be minimum 2, maximum 3.
@@ -122,23 +122,23 @@ if a key us sent, then the producer has the guarantee that all messages for that
 
 ##### SEGMENT INDEXS
 1. Segment comes with two indexes.
-    	* a) An offset to position indexes : allow kafka where to read to find a message.
-    	* b) A timestamp to offset index: allow kafka to find a message with a timestamp.
+    	* An offset to position indexes : allow kafka where to read to find a message.
+    	* A timestamp to offset index: allow kafka to find a message with a timestamp.
 2. A smaller **log.segment.bytes** means
-	* a) more segment per partition.
-	* b) log compaction happens more often.
-	* c) BUT kafka has to keep more files opened.		
+	* More segment per partition.
+	* Log compaction happens more often.
+	* Kafka has to keep more files opened.		
 
 ###### LOG CLEANUP POLICIES
 1. Kafka cluster make data expire based on policy. This concept is called log cleanup.
 
     a) **log.cleanup.policy** = **delete** (default for all user topic)
-        delete based on age of data (default to 1 week)
-	delete based on max size of log (partition) (default to -1 == infinite)
+        * delete based on age of data (default to 1 week)
+	* delete based on max size of log (partition) (default to -1 == infinite)
 	
     b) **log.cleanup.policy** = **compact** (default for **__consumer_offsets** topic)
-	delete based on key of your messages
-	you push two messages with same key then it will delete old one retain latest one.
+	* delete based on key of your messages
+	* you push two messages with same key then it will delete old one retain latest one.
 2. It happens on every partition segment.
 	* smaller/more segments means log cleanup will happen more frequently.
 	* Log cleanup shouldn't happen too often because it takes CPU and RAM resources.
