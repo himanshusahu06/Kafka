@@ -62,14 +62,17 @@ if a key us sent, then the producer has the guarantee that all messages for that
 1. Read data from topic.
 2. Only specify the topic name and one broker to connect, kafka will automatically take care of pulling the data from the right brokers.
 3. Data is read in order for each partitions.
+4. There are two type of consumer
+	* Kafka Consumer (KF) : http://cloudurable.com/blog/kafka-advanced-consumer-1/index.html
+	* Zookeeper Consumer (ZK): https://www.confluent.io/blog/tutorial-getting-started-with-the-new-apache-kafka-0-9-consumer-client/
 
 ##### CONSUMER GROUP
 1. consumer read data in consumer groups.
 2. each consumer within a group reads from exclusive partitions.
 3. **You can't have more #consumers than #partitions** (otherwise some will be inactive).
 4. one consumer can read from multiple partition but a partition can not be read from multiple consumer from same consumer group, but it a partition can be read by multiple consumer from different consumerGroups.
-    ONE CONSUMER PER PARTITION from a consumer group.
-    MULTIPLE PARTITION PER CONSUMER iff no_of_partition > no_of_consumer_in_a_consumer_group.
+    * ONE CONSUMER PER PARTITION from a consumer group.
+    * MULTIPLE PARTITION PER CONSUMER iff no_of_partition > no_of_consumer_in_a_consumer_group.
 
 ##### Consumer Offsets
 1. Kafka stores the offsets at which a consumer group has been reading.
@@ -114,8 +117,8 @@ if a key us sent, then the producer has the guarantee that all messages for that
 2. Partitions are made of segments (files).
 3. Segments (files) are made of data.
 4. Only one segment will be ACTIVE per partition (the data is being written to)
-	**log.segment.bytes** = the max size of a single segment of bytes.
-	**log.segment.ms** = the time kafka wait before committing the segment if not full
+	* **log.segment.bytes** = the max size of a single segment of bytes.
+	* **log.segment.ms** = the time kafka wait before committing the segment if not full
 
 ##### SEGMENT INDEXS
 1. Segment comes with two indexes.
@@ -132,21 +135,22 @@ if a key us sent, then the producer has the guarantee that all messages for that
     a) **log.cleanup.policy** = **delete** (default for all user topic)
         delete based on age of data (default to 1 week)
 	delete based on max size of log (partition) (default to -1 == infinite)
+	
     b) **log.cleanup.policy** = **compact** (default for **__consumer_offsets** topic)
 	delete based on key of your messages
 	you push two messages with same key then it will delete old one retain latest one.
 2. It happens on every partition segment.
-	smaller/more segments means log cleanup will happen more frequently.
-	Log cleanup shouldn't happen too often because it takes CPU and RAM resources.
+	* smaller/more segments means log cleanup will happen more frequently.
+	* Log cleanup shouldn't happen too often because it takes CPU and RAM resources.
 
 ###### *DELETE* LOG CLEANUP POLICY (log.cleanup.policy = delete):
 1. All log policies are partition level configuration
-	**log.retention.hours** : number of hours to keep the data (default one week)
-        higher number means more disk space.
-		lower number means less data is retained.
-	**log.retention.bytes** : max size of bytes in in each partition (-1 INFINITE default)
-		useful to keep size of log under a threshold
-		if log.retention.bytes is 500MB it means that as soon as partition reaches 500MB data it will delete old segment.
+	* **log.retention.hours** : number of hours to keep the data (default one week)
+        	* higher number means more disk space.
+		* lower number means less data is retained.
+	* **log.retention.bytes** : max size of bytes in in each partition (-1 INFINITE default)
+		* useful to keep size of log under a threshold
+		* if log.retention.bytes is 500MB it means that as soon as partition reaches 500MB data it will delete old segment.
 
 ###### *COMPACT* LOG CLEANUP POLICY
 1. Log compaction ensures that your log partition contains at least one known value for a specific key within a partition.
