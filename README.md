@@ -133,6 +133,7 @@ if a key us sent, then the producer has the guarantee that all messages for that
 1. Kafka cluster make data expire based on policy. This concept is called log cleanup.
 
     a) **log.cleanup.policy** = **delete** (default for all user topic)
+ 
         * delete based on age of data (default to 1 week)
 	* delete based on max size of log (partition) (default to -1 == infinite)
 	
