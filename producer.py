@@ -24,3 +24,5 @@ while True:
   producer.send(TOPIC, value=value)
   print("Sent data to topic: %s, with key: null, value:%s" % (TOPIC, value))
   time.sleep(1)
+
+
