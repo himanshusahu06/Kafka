@@ -50,9 +50,9 @@ Automatically load balancing by broker.
 
 ##### Message Acknowledgement
 Producer can choose to receive acknowledgment of data writes:
-		**Acks=0** : producer won't  wait for acknowledgment (possible data loss) (least safe) (super quick)
-		**Acks=1** : Producer will wait for leader acknowledgment (possible data loss) (moderate safe) (quick)
-		**Acks= all** : Leader + Replica acknowledgment (no data loss) (safest)
+* **Acks=0** : producer won't  wait for acknowledgment (possible data loss) (least safe) (super quick)
+* **Acks=1** : Producer will wait for leader acknowledgment (possible data loss) (moderate safe) (quick)
+* **Acks= all** : Leader + Replica acknowledgment (no data loss) (safest)
 
 ##### Producer Message Keys
 Producer can choose to send a key with the message.
@@ -170,3 +170,5 @@ https://spring.io/blog/2015/04/15/using-apache-kafka-for-integration-and-data-pr
 https://github.com/spring-projects/spring-kafka
 
 https://github.com/spring-projects/spring-integration-kafka
+
+https://kafka.apache.org/documentation/
